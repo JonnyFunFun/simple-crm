@@ -1,0 +1,24 @@
+# CRM Rewrites for some friendly URLs
+<IfModule mod_redirect.c>
+    RedirectMatch 403 /\(include|app|lib|sql)(/|$)
+</IfModule>
+RewriteEngine On
+RewriteCond %{HTTP_USER_AGENT} ^Anarchie [OR]
+RewriteCond %{HTTP_USER_AGENT} ^ASPSeek [OR]
+RewriteCond %{HTTP_USER_AGENT} ^attach [OR]
+RewriteCond %{HTTP_USER_AGENT} ^autoemailspider [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Xaldon\ WebSpider [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Xenu [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Zeus.*Webster [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Zeus
+RewriteRule ^.* - [F,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule /?(.*) index.php?q=$1
+
+<IfModule mod_security.c>
+	# Turn off mod_security filtering.
+	SecFilterEngine Off
+	# The below probably isn't needed...
+	SecFilterScanPOST Off
+</IfModule>
